@@ -19,22 +19,28 @@
       );
       //zoom level of camera
       camera.position.z = 8;
+
       // set the renderer
       let renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setClearColor('#e5e5e5');
       renderer.setSize(window.innerWidth, window.innerHeight);
       //add to DOM
       document.body.appendChild(renderer.domElement);
+
       // adjust canvase size to window size
       window.addEventListener('resize', () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
       });
+
       // cube
       var geometry = new THREE.BoxGeometry(1, 1, 1);
       var material = new THREE.MeshLambertMaterial({ color: 0xffcc00 });
       var mesh = new THREE.Mesh(geometry, material);
+
+      // set position of cube (x,y,z)
+      mesh.position.set(2, 2, -1);
 
       scene.add(mesh);
 
@@ -43,6 +49,7 @@
       light.position.set(10, 0, 25);
       scene.add(light);
 
+      // render continuously renders at 60fps
       var render = function () {
         requestAnimationFrame(render);
         renderer.render(scene, camera);

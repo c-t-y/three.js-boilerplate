@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script>
+      //init
+      let scene = new THREE.Scene();
+      let camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      //zoom level of camera
+      camera.position.z = 8;
+      // set the renderer
+      let renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setClearColor('#e5e5e5');
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      //add to DOM
+      document.body.appendChild(renderer.domElement);
+      // adjust canvase size to window size
+      window.addEventListener('resize', () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+      });
+      // cube
+      var geometry = new THREE.BoxGeometry(1, 1, 1);
+      var material = new THREE.MeshLambertMaterial({ color: 0xffcc00 });
+      var mesh = new THREE.Mesh(geometry, material);
+
+      scene.add(mesh);
+
+      //lighting
+      var light = new THREE.PointLight(0xffffff, 1, 500);
+      light.position.set(10, 0, 25);
+      scene.add(light);
+
+      var render = function () {
+        requestAnimationFrame(render);
+        renderer.render(scene, camera);
+        mesh.rotation.x += 0.1;
+        mesh.rotation.y += 0.01;
+      };
+      render();
+    </script>
+  </body>
+</html>
